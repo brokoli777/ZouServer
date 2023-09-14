@@ -8,7 +8,15 @@ export const Delete = (req: Request,res: Response, next: NextFunction) =>{
     
 }
 
-export const GetUserInfo =(req: Request,res: Response, next: NextFunction) =>{
+export const GetInfo =(req: Request,res: Response, next: NextFunction) =>{
+    
+}
+
+export const Subscribe =(req: Request,res: Response, next: NextFunction) =>{
+    
+}
+
+export const Unsubscribe =(req: Request,res: Response, next: NextFunction) =>{
     
 }
 
