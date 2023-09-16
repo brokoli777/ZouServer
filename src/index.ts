@@ -5,7 +5,15 @@ import userRoutes from './routes/UserRoutes.js'
 import videoRoutes from './routes/VideoRoutes.js'
 import commentRoutes from './routes/CommentRoutes.js'
 import authenticationRoutes from './routes/AuthenticationRoutes.js'
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser"
+
+export interface ExpressRequest extends Request {
+    user: any
+  }
+
+export interface ExpressResponse extends Response {
+    body:any
+}
 
 const app = express();
 dotenv.config();
@@ -18,6 +26,7 @@ const connect = () => {
 
 app.use(cookieParser())
 app.use(express.json())
+
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
