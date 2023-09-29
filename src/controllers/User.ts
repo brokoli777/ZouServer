@@ -1,59 +1,88 @@
 import { Request, Response, NextFunction } from 'express';
 import { ExpressRequest, ExpressResponse } from "../index.js"
 import User from "../schema/UserSchema.js"
-import { createError } from '../Error.js';
+import Video from '../schema/VideoSchema.js';
+import { CreateError } from '../Error.js';
+
 
 
 export const Update = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
-    if(req.params.id === req.user.ID){
+    // console.log(`paramsID:${req.params.id}, userID:${JSON.stringify(req.user)}`)
+    if(req.params.id === req.user.id){
         try{
-            console.log("entered here");
             const updatedUser = await User.findByIdAndUpdate(req.params.id,{
-                $set:res.body // res?
+                $set:req.body // res?
             })
             res.status(200).json(updatedUser)
         }
         catch(err){
             next(err)
-            console.log("hey");
+
         }
     }
     else{
-        console.log("test");
-        return next(createError(403,"Not authorised to update another ID account"))
+
+        return next(CreateError(403,"Not authorised to update another ID account"))
     }
 }
 
 export const Delete = (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    DeleteUser(req,res).then(() => {res.status(200).json("User has been updated")}).catch((err)=>{return next(new Error(err))})
+}
+
+const DeleteUser = (req: ExpressRequest,res: ExpressResponse) =>{
     return new Promise<void>((resolve,reject)=>{
         if(req.params.id === req.user.id){
             User.findByIdAndDelete(req.params.id).then(()=>{
                 res.status(200).json("User has been deleted");
                 resolve();
             }).catch((err)=>{
-                reject();
+                reject("You can only delete your account");
             })
         }
     })
 }
 
-// export const GetInfo =(req: Request,res: Response, next: NextFunction) =>{
+export const GetInfo = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+   try {
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user)
+   } catch (error) {
+        next(error);
+   }
+}
 
-// }
 
-// export const Subscribe =(req: Request,res: Response, next: NextFunction) =>{
 
-// }
+export const Subscribe = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    try {
+        await User.findById(req.user.id, {$push: {subscribedUsers:req.params.id}});
+        await User.findByIdAndUpdate(req.user.id, {$inc: {subscribers:1}});
+        res.status(200).json("Succesful Subscription");
+   } catch (error) {
+        next(error);
+   }
+}
 
-// export const Unsubscribe =(req: Request,res: Response, next: NextFunction) =>{
+export const Unsubscribe = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    try {
+        await User.findById(req.user.id, {$pull: {subscribedUsers:req.params.id}});
+        await User.findByIdAndUpdate(req.user.id, {$inc: {subscribers:-1}});
+        res.status(200).json("Succesful Unsubscription");
+   } catch (error) {
+        next(error);
+   }
+}
 
-// }
+export const Like = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    Video.findByIdAndUpdate(req.params.id, {$inc: {likes:1}}, {new:true}).then((UpdatedVideo:any)=>{
+        res.status(200).json(UpdatedVideo);
+    })
+}
 
-// export const Like =(req: Request,res: Response, next: NextFunction) =>{
-
-// }
-
-// export const Dislike =(req: Request,res: Response, next: NextFunction) =>{
-
-// }
+export const Dislike = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    Video.findByIdAndUpdate(req.params.id, {$inc: {likes:-1}}, {new:true}).then((UpdatedVideo:any)=>{
+        res.status(200).json(UpdatedVideo);
+    })
+}
 

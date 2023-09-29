@@ -2,17 +2,17 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from "dotenv"
 import bcrypt from "bcryptjs";
 import User from '../schema/UserSchema.js';
-import { createError } from '../Error.js';
+import { CreateError } from '../Error.js';
 import jwt from "jsonwebtoken";
 
 export const signin = async(req: Request,res: Response, next:NextFunction) =>{
     // console.log(req.body)
     try {
         const user = await User.findOne({name:req.body.name})
-        if(!user){next(createError(404, "User not found"))}
+        if(!user){next(CreateError(404, "User not found"))}
 
         if(! await bcrypt.compare(req.body.password,user.password))
-            return next(createError(400, "Wrong Password"));
+            return next(CreateError(400, "Wrong Password"));
 
 
         const {password, ...others} = (user as any)._doc;

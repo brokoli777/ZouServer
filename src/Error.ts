@@ -3,7 +3,7 @@ interface Error {
     message?:any;
 }
 
-export const createError = (Status:any, Message:any) => {
+export const CreateError = (Status:any, Message:any) => {
     const err:Error = new Error();
     err.status = Status;
     err.message = Message;

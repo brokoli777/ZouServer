@@ -1,6 +1,6 @@
 import express from "express";
 // import { test } from "../controllers/User.js";
-import { Update, /*Delete, GetInfo, Subscribe, Unsubscribe, Like, Dislike,*/  } from "../controllers/User.js";
+import { Update, Delete, GetInfo, Subscribe, Unsubscribe, Like, Dislike } from "../controllers/User.js";
 import ValidateToken from "../ValidateToken.js";
 
 const router = express.Router()
@@ -8,22 +8,22 @@ const router = express.Router()
 // update user
 router.put("/:id",ValidateToken, Update );
 
-// // delete user
-// router.delete("/:id"),Delete;
+// delete user
+router.delete("/:id",ValidateToken, Delete);
 
-// // get info about user
-// router.get("/:id"),GetInfo;
+// get info about user
+ router.get("/:id"),ValidateToken,GetInfo;
 
-// // subscribe to a user
-// router.put("/sub/:id"),Subscribe;
+// subscribe to a user
+router.put("/sub/:id"),ValidateToken,Subscribe;
 
-// // unsubscribe to a user
-// router.put("/unsub/:id"),Unsubscribe;
+// unsubscribe to a user
+router.put("/unsub/:id"),ValidateToken,Unsubscribe;
 
-// // like a video
-// router.put("/like/:video"),Like;
+// like a video
+router.put("/like/:video"),Like;
 
-// // dislike a video
-// router.put("/like/:video"),Dislike;
+// dislike a video
+router.put("/like/:video"),Dislike;
 
 export default router;

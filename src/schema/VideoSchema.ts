@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
-const VideoSchema = new mongoose.Schema({
+
+export interface IVideo extends Document {
+    userID: string;
+    title: string;
+    description: string;
+    videoURL: string;
+    views: number;
+    tags: string[];
+    likes: string[];
+    dislikes: string[];
+    createdAt: Date;
+    updatedAt: Date;
+  }
+
+
+
+const VideoSchema = new mongoose.Schema<IVideo>({
     userID:{
         type:String,
         required:true,
@@ -35,4 +51,4 @@ const VideoSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
-export default mongoose.model("Video", VideoSchema)
+export default mongoose.model<IVideo>("Video", VideoSchema)
