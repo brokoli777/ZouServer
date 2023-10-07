@@ -12,18 +12,18 @@ router.put("/:id",ValidateToken, Update );
 router.delete("/:id",ValidateToken, Delete);
 
 // get info about user
- router.get("/:id"),ValidateToken,GetInfo;
+ router.get("/:id",ValidateToken,GetInfo);
 
 // subscribe to a user
-router.put("/sub/:id"),ValidateToken,Subscribe;
+router.put("/sub/:id",ValidateToken,Subscribe);
 
 // unsubscribe to a user
-router.put("/unsub/:id"),ValidateToken,Unsubscribe;
+router.put("/unsub/:id",ValidateToken,Unsubscribe);
 
 // like a video
-router.put("/like/:video"),Like;
+router.put("/like/:video",ValidateToken,Like);
 
 // dislike a video
-router.put("/like/:video"),Dislike;
+router.put("/dislike/:video",ValidateToken,Dislike);
 
 export default router;

@@ -1,6 +1,6 @@
 import express from "express";
-import ValidateToken from "../ValidateToken";
-import { AddVideo, AddView, ChannelVid, GetVideo, Random, Trending, UpdateVideo} from "../controllers/Video";
+import ValidateToken from "../ValidateToken.js";
+import { AddVideo, AddView, Sub, GetVideo, Random, Trending, UpdateVideo, GetByTags, Search} from "../controllers/Video.js";
 // import {  } from "../controllers/Video.js";
 
 const router = express.Router()
@@ -19,6 +19,10 @@ router.get("/trending",ValidateToken, Trending)
 
 router.get("/random",ValidateToken, Random)
 
-router.get("/channel",ValidateToken, ChannelVid)
+router.get("/sub",ValidateToken, Sub)
+
+router.get("/tags",ValidateToken, GetByTags)
+
+router.get("/search",ValidateToken, Search)
 
 export default router;

@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction } from 'express';
 import { ExpressRequest, ExpressResponse } from "../index.js"
 import User from "../schema/UserSchema.js"
-import Video from '../schema/VideoSchema.js';
+import Video, { IVideo } from '../schema/VideoSchema.js';
 import { CreateError } from '../Error.js';
+import { runInNewContext } from 'vm';
 
 
 
@@ -55,9 +56,11 @@ export const GetInfo = async (req: ExpressRequest,res: ExpressResponse, next: Ne
 
 
 export const Subscribe = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    console.log("hey")
     try {
-        await User.findById(req.user.id, {$push: {subscribedUsers:req.params.id}});
-        await User.findByIdAndUpdate(req.user.id, {$inc: {subscribers:1}});
+        await User.findByIdAndUpdate(req.user.id, {$push: {subscribedUsers:req.params.id}});
+        console.log("yooo")
+        await User.findByIdAndUpdate(req.params.id, {$inc: {subscribers:1}});
         res.status(200).json("Succesful Subscription");
    } catch (error) {
         next(error);
@@ -67,22 +70,28 @@ export const Subscribe = async (req: ExpressRequest,res: ExpressResponse, next: 
 export const Unsubscribe = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
     try {
         await User.findById(req.user.id, {$pull: {subscribedUsers:req.params.id}});
-        await User.findByIdAndUpdate(req.user.id, {$inc: {subscribers:-1}});
+        await User.findByIdAndUpdate(req.params.id, {$inc: {subscribers:-1}});
         res.status(200).json("Succesful Unsubscription");
    } catch (error) {
         next(error);
    }
 }
 
-export const Like = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
-    Video.findByIdAndUpdate(req.params.id, {$inc: {likes:1}}, {new:true}).then((UpdatedVideo:any)=>{
-        res.status(200).json(UpdatedVideo);
-    })
+export const Like = (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    // Video.findByIdAndUpdate(req.params.id, {$inc: {likes:1}}, {new:true}).then((UpdatedVideo:any)=>{
+    //     res.status(200).json(UpdatedVideo);
+    // })
+    
+    Video.updateOne({_id: req.params.video}, {$push: {likes: req.user.id}, $pull: { dislikes: req.user.id }})
+    .then(()=>{res.status(200).json("Liked Video")}).catch((err)=>{next(err)})
 }
 
-export const Dislike = async (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
-    Video.findByIdAndUpdate(req.params.id, {$inc: {likes:-1}}, {new:true}).then((UpdatedVideo:any)=>{
-        res.status(200).json(UpdatedVideo);
-    })
+export const Dislike = (req: ExpressRequest,res: ExpressResponse, next: NextFunction) =>{
+    // Video.findByIdAndUpdate(req.params.id, {$inc: {likes:-1}}, {new:true}).then((UpdatedVideo:any)=>{
+    //     res.status(200).json(UpdatedVideo);
+    // })
+    console.log("boi")
+    Video.updateOne({_id: req.params.video}, {$pull: {likes: req.user.id}, $push: { dislikes: req.user.id }})
+    .then(()=>{res.status(200).json("Disliked Video")}).catch((err)=>{next(err)})
 }
 

@@ -1,8 +1,14 @@
 import express from "express";
-// import {  } from "../controllers/Video.js";
+import { AddComment, DeleteComment, GetComments } from "../controllers/Comment.js"
+import ValidateToken from "../ValidateToken.js";
 
 const router = express.Router()
 
-// router.get("/test",test)
+router.post("/",ValidateToken, AddComment)
+router.put("/:id",ValidateToken, DeleteComment)
+router.get("/:videoID",ValidateToken, GetComments)
+
+
+
 
 export default router;

@@ -9,8 +9,7 @@ import cookieParser from "cookie-parser"
 
 export interface ExpressRequest extends Request {
     user: any
-  }
-
+}
 export interface ExpressResponse extends Response {
     body:any
 }

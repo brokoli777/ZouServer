@@ -12,7 +12,7 @@ export function ValidateToken(req: ExpressRequest,res: Response, next: NextFunct
     else{
         jwt.verify(token, process.env.SECRETKEY, (err:any,user:any)=>{
             if(err) return next (CreateError(403, "Token is not valid!" + err));
-            console.log("Hello"+user)
+            console.log("Helloj"+user)
             req.user = user;
             next()
         })

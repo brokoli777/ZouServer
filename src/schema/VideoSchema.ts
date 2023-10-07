@@ -5,6 +5,7 @@ export interface IVideo extends Document {
     title: string;
     description: string;
     videoURL: string;
+    imageURL: string;
     views: number;
     tags: string[];
     likes: string[];
@@ -29,6 +30,10 @@ const VideoSchema = new mongoose.Schema<IVideo>({
         required:true
     },
     videoURL:{
+        type:String,
+        required:true
+    },
+    imageURL:{
         type:String,
         required:true
     },
