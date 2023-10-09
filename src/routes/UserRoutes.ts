@@ -12,7 +12,7 @@ router.put("/:id",ValidateToken, Update );
 router.delete("/:id",ValidateToken, Delete);
 
 // get info about user
- router.get("/:id",ValidateToken,GetInfo);
+ router.get("/find/:id",GetInfo);
 
 // subscribe to a user
 router.put("/sub/:id",ValidateToken,Subscribe);

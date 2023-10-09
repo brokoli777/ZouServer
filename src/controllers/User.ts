@@ -48,6 +48,7 @@ export const GetInfo = async (req: ExpressRequest,res: ExpressResponse, next: Ne
    try {
         const user = await User.findById(req.params.id);
         res.status(200).json(user)
+        console.log("yo"+user)
    } catch (error) {
         next(error);
    }
@@ -81,7 +82,7 @@ export const Like = (req: ExpressRequest,res: ExpressResponse, next: NextFunctio
     // Video.findByIdAndUpdate(req.params.id, {$inc: {likes:1}}, {new:true}).then((UpdatedVideo:any)=>{
     //     res.status(200).json(UpdatedVideo);
     // })
-    
+
     Video.updateOne({_id: req.params.video}, {$push: {likes: req.user.id}, $pull: { dislikes: req.user.id }})
     .then(()=>{res.status(200).json("Liked Video")}).catch((err)=>{next(err)})
 }

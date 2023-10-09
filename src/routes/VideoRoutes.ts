@@ -15,9 +15,9 @@ router.get("/find/:id",ValidateToken, GetVideo)
 
 router.put("/view/:id",ValidateToken, AddView)
 
-router.get("/trending",ValidateToken, Trending)
+router.get("/trending", Trending)
 
-router.get("/random",ValidateToken, Random)
+router.get("/random", Random)
 
 router.get("/sub",ValidateToken, Sub)
 

@@ -24,7 +24,7 @@ export function AddComment(req: ExpressRequest,res: ExpressResponse, next: NextF
 export function DeleteComment(req: ExpressRequest,res: ExpressResponse, next: NextFunction){
 
     Comment.findById(req.params.id).then((UserComment) => {
-        //console.log("HEyyyy")
+        // console.log("HEyyyy")
         if(!UserComment) return next(CreateError(403,"Comment does not exist"))
         else if (req.user.id === UserComment.userID){
             Comment.findByIdAndDelete(req.params.id).then(() => {
@@ -34,7 +34,7 @@ export function DeleteComment(req: ExpressRequest,res: ExpressResponse, next: Ne
         }
         else{
             return next(CreateError(403,"You can only delete your own comments"))
-        }   
+        }
     }
     ).catch((err) => {
         next(err)

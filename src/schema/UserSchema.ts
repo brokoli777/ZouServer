@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
-    img:{
+    channelImg:{
         type:String,
     },
 

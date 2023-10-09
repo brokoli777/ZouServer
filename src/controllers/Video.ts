@@ -90,7 +90,7 @@ export function Random (req:ExpressRequest,res:ExpressResponse, next:NextFunctio
 export function Sub (req:ExpressRequest,res:ExpressResponse, next:NextFunction) {
     User.findById(req.user.id).then(async (CurrentUser)=>{
         const SubscribedChannels = CurrentUser.subscribedUsers;
-        console.log("boi"+SubscribedChannels)
+        // console.log("boi"+SubscribedChannels)
         const List = await Promise.all(
             SubscribedChannels.map((ChannelID) =>{
                 console.log("channelId"+ChannelID)
