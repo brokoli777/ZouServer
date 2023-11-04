@@ -40,3 +40,33 @@ export const signup = async(req: Request,res: Response, next:NextFunction) =>{
     }
 }
 
+export const googleAuthentication = async(req: Request,res: Response, next:NextFunction) =>{
+
+    try {
+        const user = await User.findOne({email:req.body.email})
+
+        if(user){
+            const token = jwt.sign({id:user._id}, process.env.SECRETKEY);
+            res.cookie("access_token", token,{
+                httpOnly:true
+            }).status(200).json((user as any)._doc);
+        }
+        else{
+            const newUser = new User({
+                ...req.body,
+                channelImg: req.body.photoURL,
+                fromGoogle:true
+            })
+            const savedUser = await newUser.save();
+            const token = jwt.sign({id:savedUser._id}, process.env.SECRETKEY);
+            res.cookie("access_token", token,{
+                httpOnly:true
+            }).status(200).json((savedUser as any)._doc);
+        }
+
+
+    } catch (error) {
+        next(error);
+    }
+}
+

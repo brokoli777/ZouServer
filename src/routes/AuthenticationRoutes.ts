@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 // import {  } from "../controllers/Video.js";
-import { signup, signin} from "../controllers/Authentication.js";
+import { signup, signin, googleAuthentication} from "../controllers/Authentication.js";
 
 const router = express.Router()
 
@@ -9,6 +9,6 @@ router.post("/signup",signup)
 // Sign in
 router.post("/signin", signin)
 // Authentication Google Account
-router.post("/google")
+router.post("/google", googleAuthentication)
 
 export default router;
