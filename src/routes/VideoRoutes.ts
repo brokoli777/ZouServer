@@ -11,7 +11,7 @@ router.put("/:id",ValidateToken, UpdateVideo)
 
 router.delete("/:id",ValidateToken, UpdateVideo)
 
-router.get("/find/:id",ValidateToken, GetVideo)
+router.get("/find/:id", GetVideo)
 
 router.put("/view/:id",ValidateToken, AddView)
 

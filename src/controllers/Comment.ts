@@ -42,7 +42,9 @@ export function DeleteComment(req: ExpressRequest,res: ExpressResponse, next: Ne
 }
 
 export function GetComments(req: ExpressRequest,res: ExpressResponse, next: NextFunction){
+    console.log(req.params.videoID)
     Comment.find({videoID: req.params.videoID}).then((Comments) => {
+        console.log("uppp",Comments)
         res.status(200).json(Comments)
     }
     ).catch((err) => {

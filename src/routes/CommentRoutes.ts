@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post("/",ValidateToken, AddComment)
 router.put("/:id",ValidateToken, DeleteComment)
-router.get("/:videoID",ValidateToken, GetComments)
+router.get("/:videoID", GetComments)
 
 
 
