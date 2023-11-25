@@ -48,7 +48,7 @@ export const GetInfo = async (req: ExpressRequest,res: ExpressResponse, next: Ne
    try {
         const user = await User.findById(req.params.id);
         res.status(200).json(user)
-        //console.log("yo"+user)
+        // console.log("yo"+user)
    } catch (error) {
         next(error);
    }
