@@ -1,5 +1,7 @@
+# Zou
 Backend Server for Zou (Work in Progress)
 
-Features:
-User Authentication
-CRUD API for Users, Videos, Comments
+## Features:
+- User Authentication
+- Manage User Uploads
+- CRUD for Likes and Comments
